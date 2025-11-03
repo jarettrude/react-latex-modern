@@ -9,28 +9,25 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Checkout repository
-      uses: actions/checkout@master
+      uses: actions/checkout@v4
+
     - name: Set up Node.js
-      uses: actions/setup-node@master
+      uses: actions/setup-node@v4
       with:
-        node-version: 12.0.0      
-    - name: Use cached node_modules
-      uses: actions/cache@v1
-      with:
-        path: node_modules
-        key: nodeModules-${{ hashFiles('**/yarn.lock') }}
-        restore-keys: |
-          nodeModules-
+        node-version: 20.x
+        registry-url: 'https://registry.npmjs.org'
+        cache: npm
+
     - name: Install dependencies
-      run: yarn install --frozen-lockfile
+      run: npm ci
+
+    - name: Run tests
+      run: npm test
+
+    - name: Build package
+      run: npm run build
+
+    - name: Publish package
+      run: npm publish --access public
       env:
-        CI: true
-    - name: Publish if version has been updated
-      uses: pascalgn/npm-publish-action@cddeb3510a079fbcf445797a0b429e0c0a2432f5
-      with:
-        tag_name: "v%s"
-        tag_message: "v%s"
-        commit_pattern: "^release (\\S+)"
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        NPM_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
+        NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
