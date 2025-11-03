@@ -1,3 +1,4 @@
-.__Latex__ .latex {
-  font: inherit
+.__Latex__ .latex,
+.__Latex__ .katex {
+  font: inherit;
 }

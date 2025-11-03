@@ -1,23 +1,33 @@
 {
   "compilerOptions": {
-    "outDir": "build",
-    "module": "esnext",
-    "target": "es5",
-    "lib": ["es6", "dom", "es2016", "es2017"],
-    "sourceMap": true,
-    "allowJs": false,
-    "jsx": "react",
+    "target": "ES2019",
+    "module": "ESNext",
+    "moduleResolution": "Node",
+    "lib": ["DOM", "DOM.Iterable", "ES2021"],
+    "jsx": "react-jsx",
+    "rootDir": "src",
     "declaration": true,
-    "moduleResolution": "node",
+    "declarationMap": true,
+    "declarationDir": "dist",
+    "outDir": "dist",
+    "allowJs": false,
+    "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
-    "noImplicitReturns": true,
-    "noImplicitThis": true,
-    "noImplicitAny": true,
-    "strictNullChecks": true,
-    "suppressImplicitAnyIndexErrors": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true
+    "resolveJsonModule": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "noUncheckedIndexedAccess": true,
+    "types": ["vitest", "@testing-library/jest-dom"],
+    "sourceMap": true,
+    "pretty": true
   },
   "include": ["src"],
-  "exclude": ["node_modules", "build", "dist", "example", "rollup.config.js"]
+  "exclude": [
+    "node_modules",
+    "dist",
+    "example",
+    "example-nextjs",
+    "rollup.config.js",
+    "vitest.setup.ts"
+  ]
 }

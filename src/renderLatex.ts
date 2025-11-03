@@ -1,32 +1,42 @@
 /** Adapted from /contrib/auto-render/auto-render.js at github.com/Khan/KaTeX */
 
 import { renderToString } from 'katex';
-import { Delimiter } from './types';
+import { type Delimiter, type Macros } from './types';
 import splitAtDelimiters from './splitAtDelimiters';
 
-export type Macros = { [name: string]: string };
+const escapeHtml = (value: string): string =>
+  value
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
 
-export default function renderLatexInTextAsHTMLString(text: string, delimiters: Delimiter[], strict: boolean, macros?: Macros): string {
+export default function renderLatexInTextAsHTMLString(
+  text: string,
+  delimiters: readonly Delimiter[],
+  strict: boolean,
+  macros?: Macros,
+): string {
   const data = splitAtDelimiters(text, delimiters);
-  const fragments = []
+  const fragments: string[] = [];
 
-  for (let i = 0; i < data.length; i++) {
-    if (data[i].type === 'text') {
-      fragments.push(data[i].data);
-    } else {
-      const latex = data[i].data;
-      const displayMode = data[i].display;
-      try {
-        const rendered = renderToString(latex, { displayMode, macros });
-        fragments.push(rendered);
-      } catch (error) {
-        if (strict) {
-          throw error;
-        }
-        fragments.push(data[i].data);
+  for (const item of data) {
+    if (item.type === 'text') {
+      fragments.push(item.data);
+      continue;
+    }
+
+    try {
+      const rendered = renderToString(item.data, { displayMode: item.display, macros });
+      fragments.push(rendered);
+    } catch (error) {
+      if (strict) {
+        throw error;
       }
+      fragments.push(escapeHtml(item.rawData ?? item.data));
     }
   }
 
   return fragments.join('');
-};
+}

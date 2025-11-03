@@ -1,26 +1,30 @@
-import * as React from 'react'
+import { useMemo } from 'react';
 
-import renderLatex, { Macros } from './renderLatex';
-import { Delimiter } from './types';
-import './Latex.css'
+import renderLatex from './renderLatex';
+import { type Delimiter, type Macros } from './types';
 
 export interface LatexProps {
-  children: string | string[];
-  delimiters?: Delimiter[];
-  strict?: boolean;
-  macros?: Macros
+  readonly children: string | readonly string[];
+  readonly delimiters?: readonly Delimiter[];
+  readonly strict?: boolean;
+  readonly macros?: Macros;
 }
 
-const defaultDelimiters = [
+const defaultDelimiters: readonly Delimiter[] = [
   { left: '$$', right: '$$', display: true },
   { left: '\\(', right: '\\)', display: false },
   { left: '$', right: '$', display: false },
   { left: '\\[', right: '\\]', display: true },
-]
+];
 
-export default function Latex({children, delimiters = defaultDelimiters, strict = false, macros }: LatexProps) {
-  const renderedLatex = renderLatex(Array.isArray(children) ? children.join('') : children, delimiters!, strict!, macros);
-  return (
-    <span className="__Latex__" dangerouslySetInnerHTML={{ __html: renderedLatex }} />
-  )
+const toSource = (value: LatexProps['children']): string => (typeof value === 'string' ? value : value.join(''));
+
+export default function Latex({ children, delimiters = defaultDelimiters, strict = false, macros }: LatexProps) {
+  const source = useMemo<string>(() => toSource(children), [children]);
+  const renderedLatex = useMemo(
+    () => renderLatex(source, [...delimiters], Boolean(strict), macros),
+    [source, delimiters, strict, macros],
+  );
+
+  return <span className="__Latex__" dangerouslySetInnerHTML={{ __html: renderedLatex }} />;
 }
