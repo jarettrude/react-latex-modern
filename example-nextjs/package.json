@@ -1,7 +1,7 @@
 {
-  "name": "react-latex-modern-next-example",
+  "name": "react-latex-next-next-example",
   "version": "0.0.0",
-  "description": "Next.js App Router demo for react-latex-modern",
+  "description": "Next.js App Router demo for react-latex-next",
   "private": true,
   "scripts": {
     "dev": "next dev",
@@ -13,7 +13,7 @@
     "next": "^16.0.1",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
-    "react-latex-modern": "file:.."
+    "react-latex-next": "file:.."
   },
   "devDependencies": {
     "babel-plugin-react-compiler": "1.0.0",

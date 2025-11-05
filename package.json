@@ -1,17 +1,15 @@
 {
-  "name": "react-latex-modern",
+  "name": "react-latex-next",
   "version": "4.0.0",
-  "description": "Modern React 19 compatible LaTeX rendering for React apps",
-  "author": "Jarett <jarett@arbutuscode.ca>",
-  "contributors": [
-    "Harun Urhan"
-  ],
-  "homepage": "https://github.com/jarettrude/react-latex-modern",
+  "description": "Render LaTeX in React apps",
+  "author": "harunurhan",
+  "homepage": "https://react-latex.netlify.app",
   "license": "MIT",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/jarettrude/react-latex-modern.git"
-  },
+  "repository": "harunurhan/react-latex-next",
+  "jsnext:main": "dist/index.es.js",
+  "contributors": [
+    "Jarett Rude"
+  ],
   "type": "module",
   "main": "dist/index.cjs",
   "module": "dist/index.js",
@@ -46,8 +44,8 @@
     "katex": "^0.16.25"
   },
   "peerDependencies": {
-    "react": "^19.2.0",
-    "react-dom": "^19.2.0"
+    "react": "^16.14.0 || ^17.0.0 || ^18.0.0 || ^19.0.0",
+    "react-dom": "^16.14.0 || ^17.0.0 || ^18.0.0 || ^19.0.0"
   },
   "devDependencies": {
     "@rollup/plugin-commonjs": "^29.0.0",
