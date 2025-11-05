@@ -18,59 +18,61 @@ npm install react-latex-next
 
 ```tsx
 import 'katex/dist/katex.min.css';
-import Latex from 'react-latex-next';
+import Latex from 'react-latex-modern';
 
-function Example() {
+export function Example(): JSX.Element {
   return (
-    <Latex>We give illustrations for the {1 + 2} processes $e^+e^-$, gluon-gluon and $\\gamma\\gamma \\to W t\\bar b$.</Latex>
+    <Latex>
+      {`Einstein's famous mass-energy equivalence $E = mc^2$ links energy $E$, mass $m$, and the speed of light $c$.`}
+    </Latex>
   );
 }
 ```
 
-**Note**: `katex` CSS needs to be included in your final bundle. Above example is using `import` to load `css` but depending on how the code & styles are built and bundled, it may be different for your case.
+### Props
 
-### delimiters
+| Prop        | Type                           | Default                                    | Description |
+|-------------|--------------------------------|--------------------------------------------|-------------|
+| `children`  | `string | readonly string[]`   | –                                          | Source content containing math expressions. |
+| `delimiters`| `readonly Delimiter[]`         | `['$$','\$','$','\\[','\\]','\\(','\\)']` | Configure the math delimiters to search for. |
+| `strict`    | `boolean`                      | `false`                                    | Throw when KaTeX fails to render. |
+| `macros`    | `Macros`                       | `undefined`                                | Provide persistent KaTeX macros. |
 
-List of delimiters to look for math you can configure it via `delimiters` prop: `<Latex delimiters={[...]}>`
+Additional helpers (`renderLatex`, `splitAtDelimiters`, type exports) are available for advanced integrations:
 
-#### A delimiter
-
-```js
-{
-  left: "A string which starts the math expression (i.e. the left delimiter)"
-  right: "A string which ends the math expression (i.e. the right delimiter)"
-  display: "A boolean of whether the math in the expression should be rendered in display mode or not"
-}
+```ts
+import Latex, {
+  type LatexProps,
+  type Macros,
+  type Delimiter,
+  renderLatex,
+  splitAtDelimiters,
+} from 'react-latex-modern';
 ```
 
-#### Default delimiters
+## Example apps
 
-```js
-[
-  { left: '$$', right: '$$', display: true },
-  { left: '\\(', right: '\\)', display: false },
-  { left: '$', right: '$', display: false },
-  { left: '\\[', right: '\\]', display: true },
-]
-```
+This repo includes two runnable demos showing common integration patterns:
 
-### strict
+1. **Vite + React + TypeScript** (`example/`) – interactive playground with strict mode toggle, macros, and live preview.
+2. **Next.js 16 App Router** (`example-nextjs/`) – demonstrates usage with server components and the latest Next.js defaults.
 
-It renders by default non-strict which means it falls back to raw text (without delimiters) in case of error.
-You can enable strict mode like below, which will throw the error instead.
+Run them locally via the commands listed in each example README.
 
-```jsx
-<Latex strict>{textWithSomeBrokenLatex}</Latex>
-```
+## Development
 
-### macros
+```bash
+# Install dependencies
+npm install
 
-A collection of custom macros. Each macro is a property with a name like `\name` (written `\\name` in JavaScript) which maps to a string that describes the expansion of the macro.
+# Run unit tests
+npm test
 
-`macros` object is also used to persists macros defined in `LaTeX` via `\gdef`, refer to the [KaTeX docs](https://katex.org/docs/api.html#persistent-macros) for more details (and security implications)
+# Build the package
+npm run build
 
-```jsx
-<Latex macros={{ "\\f": "#1f(#2)" }}>{'$\\f\\relax{x} = x$ is rendered using macros'}</Latex>
+# Lint TypeScript types
+npm run lint
 ```
 
 ## License
